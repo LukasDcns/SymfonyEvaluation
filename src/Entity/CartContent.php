@@ -18,14 +18,7 @@ class CartContent
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="cart")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $product;
-
-    /**
      * @ORM\OneToOne(targetEntity=Cart::class, inversedBy="cartContent", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $cart;
 
@@ -39,21 +32,15 @@ class CartContent
      */
     private $added_date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $product;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
     }
 
     public function getCart(): ?Cart
@@ -88,6 +75,18 @@ class CartContent
     public function setAddedDate(\DateTimeInterface $added_date): self
     {
         $this->added_date = $added_date;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

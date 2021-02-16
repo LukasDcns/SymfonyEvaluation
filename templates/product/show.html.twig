@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ product.name }} | Détails {% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form(modif) }}
+        <a class="btn btn-danger" href="{{ path('product_delete', {'id':product.id})  }}" role="button">Supprimer le produit</a>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{product.name}}</h5>
+            <p class="card-text">{{product.description}}</p>
+            <p class="card-text"><small class="text-muted"> Prix : {{product.price}} € || Stock : {{product.stock}}</small></p>
+            <form action="{{ path('add_product_cartcontent', {'id':product.id})  }}" method="GET">
+                <input type="number" id="quantity" name="quantity">
+                <input type="submit" value="Ajouter au panier">
+            </form>
+        </div>
+        <img src="{{ asset('/uploads/'~ product.picture) }}" class="card-img-bottom" alt="{{product.name}}">
+    </div>
+
+{% endblock %}

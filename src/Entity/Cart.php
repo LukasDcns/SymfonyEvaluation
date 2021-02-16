@@ -18,12 +18,6 @@ class Cart
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $User;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $purchase_date;
@@ -34,25 +28,19 @@ class Cart
     private $paid;
 
     /**
-     * @ORM\OneToOne(targetEntity=CartContent::class, mappedBy="cart", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=CartContent::class, mappedBy="cart")
      */
     private $cartContent;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="carts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->User;
-    }
-
-    public function setUser(User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
     }
 
     public function getPurchaseDate(): ?\DateTimeInterface
@@ -92,6 +80,18 @@ class Cart
         }
 
         $this->cartContent = $cartContent;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

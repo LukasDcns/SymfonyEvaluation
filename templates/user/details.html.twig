@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Utilisateur | {{ app.user.email }} {% endblock %}
+
+{% block body %}
+    <div class="card text-center">
+        <div class="card-header">
+            {{ user.informations.firstName }} {{ user.informations.lastName }}
+        </div>
+        <div class="card-body row">
+            <div class="card col-sm-3">
+                <div class="card-header">
+                    Informations
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Nom : {{ user.informations.lastName }}</li>
+                    <li class="list-group-item">Prénom : {{ user.informations.firstName }}</li>
+                    <li class="list-group-item">Email : {{ user.informations.email }}</li>
+                </ul>
+            </div>
+            <div class="card col-sm-8 ms-4">
+                <div class="card-header mb-4">
+                    Modifier
+                </div>
+                {{ form_start(user.form) }}
+                <div class="row mb-2">
+                    <div class="form-group col-md-6">
+                        <label for="inputFirstName">Prénom</label>
+                        {{ form_widget(user.form.first_name, { 'attr': {'class': 'form-control', 'id': 'inputFirstName', 'placeholder': 'Prénom'} }) }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputName">Nom</label>
+                        {{ form_widget(user.form.last_name, { 'attr': {'class': 'form-control', 'id': 'inputName', 'placeholder': 'Nom'} }) }}
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="inputEmail">Email</label>
+                    {{ form_widget(user.form.email, { 'attr': {'class': 'form-control', 'id': 'inputEmail', 'placeholder': 'Email'} }) }}
+                </div>
+                {{ form_row(user.form._token) }}
+                {{ form_widget(user.form.submit, { 'attr': {'class': 'btn btn-primary mb-2'} }) }}
+            </div>
+        </div>
+    </div>
+
+    <h1 class="my-4">Commandes</h1>
+    <div class="row">
+        {% for order in user.orders %}
+            <div class="card me-5" style="width: 18rem;">
+                <div class="card-header">
+                    {{ order.id }}
+                    <span class="badge bg-primary rounded-pill ms-4">{{ order.purchaseDate|date('d/m/Y') }}</span>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Total : {{ order.cartContent.product.price * order.cartContent.quantity }} €</li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -44,16 +44,6 @@ class Product
      */
     private $picture;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CartContent::class, mappedBy="product")
-     */
-    private $cartContent;
-
-    public function __construct()
-    {
-        $this->cartContent = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -115,36 +105,6 @@ class Product
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CartContent[]
-     */
-    public function getCartContent(): Collection
-    {
-        return $this->cartContent;
-    }
-
-    public function addCartContent(CartContent $cartContent): self
-    {
-        if (!$this->cartContent->contains($cartContent)) {
-            $this->cartContent[] = $cartContent;
-            $cartContent->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCartContent(CartContent $cartContent): self
-    {
-        if ($this->cartContent->removeElement($cartContent)) {
-            // set the owning side to null (unless already changed)
-            if ($cartContent->getProduct() === $this) {
-                $cartContent->setProduct(null);
-            }
-        }
 
         return $this;
     }

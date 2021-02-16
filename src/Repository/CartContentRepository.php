@@ -19,6 +19,18 @@ class CartContentRepository extends ServiceEntityRepository
         parent::__construct($registry, CartContent::class);
     }
 
+    public function findAllByCartId($cardId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cart = :cartId')
+            ->setParameter('cartId', $cardId)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
     // /**
     //  * @return CartContent[] Returns an array of CartContent objects
     //  */

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Accueil {% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for product in products %}
+            <div class="card px-0" style="width: 18rem;">
+                <img src="{{ asset('/uploads/'~ product.picture) }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    {% if app.user %}
+                        <a href="{{ path('product_show', {'id' : product.id}) }}" class="btn btn-primary">Voir les détails</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <button>
+            <a href="{{ path('product_add') }}">
+                Ajouter un produit
+            </a>
+        </button>
+    {% endif %}
+{% endblock %}

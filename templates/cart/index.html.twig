@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ app.user.firstName }} {{ app.user.lastName }} | Panier {% endblock %}
+
+{% block body %}
+        <h1 class="mb-4">Panier</h1>
+        <div class="row">
+            {% for content in cartContent %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        {{ content.product.name }}
+                        <span class="badge bg-primary rounded-pill ms-4">{{ content.quantity }}</span>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Prix unique : {{ content.product.price }} €</li>
+                        <li class="list-group-item">Prix total : {{ content.quantity * content.product.price }} € </li>
+                        <li class="list-group-item">
+                            <a class="btn btn-danger" href="{{ path('deleteCartContentItem', {'id': content.id}) }}" role="button">Supprimer</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="btn btn-success mt-4" href="{{ path('paidCart', {'id': cart.id}) }}" role="button">Payer</a>
+{% endblock %}
